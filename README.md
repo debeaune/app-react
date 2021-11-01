@@ -1,2 +1,2 @@
 # app-react
-Application React dynamique avec Laravel
+Application React dynamique communiquant avec une API Laravel

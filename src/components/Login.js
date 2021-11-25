@@ -34,13 +34,13 @@ class Login extends React.Component {
 
     handleSubmit = event => {
         event.preventDefault()
-        //console.log('Connexion')
+        console.log('Connexion')
 
         let bodyFormData = new FormData()
         bodyFormData.set('email',this.state.email)
         bodyFormData.set('password', this.state.password)
 
-        axios.post('http://127.0.01:8000/api/login', bodyFormData)
+        axios.post('http://127.0.0.1:8000/api/login', bodyFormData)
             .then(res => {
                 console.log(res.data)
                 localStorage.setItem('token',res.data.api_token)

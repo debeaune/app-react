@@ -55,7 +55,7 @@ class Register extends React.Component {
         bodyFormData.set('password', this.state.password)
         bodyFormData.set('confirm_password',this.state.confirm_password)
 
-        axios.post('http://127.0.01:8000/api/register', bodyFormData)
+        axios.post('http://127.0.0.1:8000/api/register', bodyFormData)
             .then(res => {
                 console.log(res.data)
                 localStorage.setItem('token',res.data.api_token)

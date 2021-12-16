@@ -28,13 +28,14 @@ class PostArticle extends React.Component {
     }
 
     handleImageChange = event =>{
+        console.log(event.target.files);
         this.setState( {image: event.target.files[0]}, () => {
             console.log(this.state)
         })
     }
 
     handleSubmit = event => {
-        event.preventDefault()
+        event.preventDefault();
         let bodyFormData = new FormData()
         bodyFormData.set('title',this.state.title)
         bodyFormData.set('description', this.state.description)
@@ -49,7 +50,7 @@ class PostArticle extends React.Component {
         axios.post('http://127.0.0.1:8000/api/pictures', bodyFormData, headers)
             .then(res => {
                 console.log(res)
-                //this.setState({redirect : true})
+                this.setState({redirect : true})
             })
             .catch(error => {
                 if(error.response.status === 401)

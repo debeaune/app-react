@@ -47,7 +47,7 @@ class PostArticle extends React.Component {
             }
         }
 
-        axios.post('http://127.0.0.1:8000/api/pictures', bodyFormData, headers)
+        axios.post('http://127.0.0.1:8000/api/pictures/store', bodyFormData, headers)
             .then(res => {
                 console.log(res)
                 this.setState({redirect : true})

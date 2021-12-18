@@ -7,12 +7,13 @@ class Home extends React.Component{
     constructor(){
         super()
         this.state = {
-            pictures:[]
+            pictures:[],
+            search:''
         }
     }
 
     componentDidMount(){
-        axios.get('http://127.0.0.1:8000/api/pictures')
+        axios.post('http://127.0.0.1:8000/api/pictures')
         .then(res => {
             this.setState({pictures:res.data})
         })
@@ -21,12 +22,45 @@ class Home extends React.Component{
         })
     }
 
+    handleSearchChange = event => {
+        this.setState({ search: event.target.value}, function () {
+            console.log(this.state)
+            if(this.state.search === ''){
+                this.getArticles()
+            }
+        })
+    }
+
+    handleSubmit = event =>{
+        event.preventDefault()
+        this.getArticles()
+    }
+    
+    getArticles(){
+        let bodyFormData=new FormData()
+        bodyFormData.set('search', this.state.search)
+        axios.post('http://127.0.0.1:8000/api/pictures',bodyFormData)
+        .then(res => {
+            this.setState({pictures:res.data})
+        })
+        .catch(error => {
+            console.log(error.response)
+        })
+    }
+
+
     render() {
         return (
             <>
                 <Navbar/>
                 <div class="container my-5">
-                    <div class="row justify-content-center">
+                    <div className="d-flex justify-content-center mb-5">
+                        <form class="form-inline my-2 my-lg-0" method="POST" onSubmit={this.handleSubmit} >
+                            <input className="form-control mr-sm-2" name="search" onChange={this.handleSearchChange} type="search"
+                        placeholder="Search a picture here ...."></input>
+                        </form>
+                    </div>
+                    <div className="row justify-content-center">
                         {
                             this.state.pictures.map((picture)=>
                                 <div class="card mx-2" style={{width: '350px'}}>

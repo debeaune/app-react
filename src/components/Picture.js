@@ -46,12 +46,14 @@ class Picture extends React.Component {
                     this.state.picture && this.state.picture.user
                     ?
                     <div className="row">
-                        <div className="col-8">
+                        <div className="col-6">
                             <img class="img-fluid" src={`http://127.0.0.1:8000/storage/pictures/${this.state.picture.image}`}/>
                         </div>
                         <div className="col-4">
                             <div className="author">
-                                <h3>{this.state.picture.user.name}</h3>
+                                <h3>{this.state.picture.title}</h3>
+                                <p>{this.state.picture.description}</p>
+                                <h2>Auteur : <span className="badge badge-secondary">{this.state.picture.user.name}</span></h2>
                             </div>
                         </div>
                     </div>

@@ -3,13 +3,15 @@ import {Redirect} from 'react-router-dom'
 import axios from 'axios'
 import Navbar from '../components/Navbar'
 import AppLoader from './AppLoader'
-
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder'
+import FavoriteIcon from '@material-ui/icons/Favorite'
 class Picture extends React.Component {
     constructor() {
         super()
         this.state= {
             redirect:false,
-            picture:{}
+            picture:{},
+            liked:false
         }
     }
 
@@ -23,7 +25,9 @@ class Picture extends React.Component {
             }
             axios.get(`http://127.0.0.1:8000/api/pictures/${id}`, headers)
             .then(res =>{
-                this.setState({picture:res.data})
+                this.setState({picture:res.data}, () => {
+                    this.checkLike()
+                })
             })
             .catch(error =>{
                 console.log(error.response)
@@ -32,6 +36,38 @@ class Picture extends React.Component {
         else {
             this.setState({redirect : true})
         }
+    }
+
+    checkLike(){
+        let headers={
+            headers: {
+                'API-TOKEN':localStorage.getItem('token')
+            }
+        }
+
+        axios.get(`http://127.0.0.1:8000/api/pictures/${this.state.picture.id}/checkLike`,headers)
+        .then(res => {
+            this.setState({liked : res.data})
+        })
+        .catch(error => {
+            console.log(error.response)
+        })
+    }
+
+    handleLike(){
+        let headers={
+            headers: {
+                'API-TOKEN':localStorage.getItem('token')
+            }
+        }
+
+        axios.get(`http://127.0.0.1:8000/api/pictures/${this.state.picture.id}/handleLike`,headers)
+        .then(res => {
+            this.checkLike()
+        })
+        .catch(error => {
+            console.log(error.response)
+        })
     }
 
     render () {
@@ -53,7 +89,18 @@ class Picture extends React.Component {
                             <div className="author">
                                 <h3>{this.state.picture.title}</h3>
                                 <p>{this.state.picture.description}</p>
-                                <h2>Auteur : <span className="badge badge-secondary">{this.state.picture.user.name}</span></h2>
+                                <h4>Auteur : <span className="badge badge-secondary">{this.state.picture.user.name}</span></h4>
+                                {
+                                    this.state.liked
+                                    ?
+                                        <>
+                                            <FavoriteIcon onClick={() => this.handleLike()}/>Je n'aime plus
+                                        </>
+                                    :
+                                        <>
+                                            <FavoriteBorderIcon onClick={() => this.handleLike()}/>J'aime
+                                        </>
+                                }
                             </div>
                         </div>
                     </div>

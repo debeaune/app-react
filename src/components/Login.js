@@ -2,6 +2,7 @@ import React from 'react'
 import Navbar from './Navbar'
 import axios from 'axios'
 import { Redirect } from 'react-router-dom'
+import {GoogleLoginButton} from 'react-social-login-buttons'
 
 class Login extends React.Component {
     constructor() {
@@ -81,6 +82,11 @@ class Login extends React.Component {
                         {this.state.errors && this.state.errors == 'bad_credentials' ? <div class="alert alert-warning">Vos identifiants de connexion sont incorrects !</div> : ''}
                         <button type="submit" class="btn btn-primary">Me connecter</button>
                     </form>
+                </div>
+                <div className="d-flex justify-content-center mt-5">
+                    <a href="http://127.0.0.1:8000/auth/redirect/google">
+                        <GoogleLoginButton style={{maxWidth:400, minWidth:300}}/>
+                    </a>
                 </div>
             </>
         )
